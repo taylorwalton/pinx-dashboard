@@ -27,8 +27,9 @@ export { useHead, useHeadSafe, useServerHeadSafe, useServerHead, useSeoMeta, use
 export { onBeforeRouteLeave, onBeforeRouteUpdate, useLink } from 'vue-router';
 export { withCtx, withDirectives, withKeys, withMemo, withModifiers, withScopeId, onActivated, onBeforeMount, onBeforeUnmount, onBeforeUpdate, onDeactivated, onErrorCaptured, onMounted, onRenderTracked, onRenderTriggered, onServerPrefetch, onUnmounted, onUpdated, computed, customRef, isProxy, isReactive, isReadonly, isRef, markRaw, proxyRefs, reactive, readonly, ref, shallowReactive, shallowReadonly, shallowRef, toRaw, toRef, toRefs, triggerRef, unref, watch, watchEffect, watchPostEffect, watchSyncEffect, isShallow, effect, effectScope, getCurrentScope, onScopeDispose, defineComponent, defineAsyncComponent, resolveComponent, getCurrentInstance, h, inject, hasInjectionContext, nextTick, provide, mergeModels, toValue, useModel, useAttrs, useCssModule, useCssVars, useSlots, useTransitionState, useId, useTemplateRef, useShadowRoot, Component, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue';
 export { requestIdleCallback, cancelIdleCallback } from '#app/compat/idle-callback';
-export { setInterval } from '#app/compat/interval';
 export { useAddFonts } from '../composables/useAddFonts';
+export { useApiClient } from '../composables/useApiClient';
+export { useErrorHandler } from '../composables/useErrorHandler';
 export { useFullscreenSwitch } from '../composables/useFullscreenSwitch';
 export { useGlobalActions, NotificationObject } from '../composables/useGlobalActions';
 export { useHideLayoutFooter } from '../composables/useHideLayoutFooter';
@@ -39,8 +40,10 @@ export { useSearchDialog } from '../composables/useSearchDialog';
 export { useThemeSwitch } from '../composables/useThemeSwitch';
 export { authCheck } from '../utils/auth';
 export { default as dayjs } from '../utils/dayjs';
+export { HttpClient, HttpClient } from '../utils/httpClient';
 export { file2Base64, isEnvDev, isEnvTest, isEnvProd, isMobile, renderIcon, getOS, delay, OS } from '../utils/index';
 export { COLOR_SHADES, toggleSidebarClass, colorToArray, exposure, getColorAlphaShades, getTypeValue, getThemeColors, expandPattern, ColorShade } from '../utils/theme';
+export { useAgentsStore } from '../stores/agents.store';
 export { useAuthStore } from '../stores/auth';
 export { useLocalesStore } from '../stores/i18n';
 export { useMainStore } from '../stores/main';
@@ -50,4 +53,5 @@ export { defineStore, acceptHMRUpdate, usePinia, storeToRefs } from '../node_mod
 export { storages as piniaPluginPersistedstate } from '../node_modules/.pnpm/pinia-plugin-persistedstate@4.2.0_@pinia+nuxt@0.10.1_magicast@0.3.5_pinia@3.0.2_typescr_8340d5f59c36b613ceee35c590490a79/node_modules/pinia-plugin-persistedstate/dist/nuxt/runtime/storages';
 export { useI18n } from '../node_modules/.pnpm/vue-i18n@10.0.7_vue@3.5.13_typescript@5.8.3_/node_modules/vue-i18n/dist/vue-i18n';
 export { useRouteBaseName, useLocalePath, useLocaleRoute, useSwitchLocalePath, useLocaleHead, useBrowserLocale, useCookieLocale, useSetI18nParams, defineI18nRoute, defineI18nLocale, defineI18nConfig } from '../node_modules/.pnpm/@nuxtjs+i18n@9.5.4_@vue+compiler-dom@3.5.13_eslint@9.26.0_jiti@2.4.2__magicast@0.3.5_ro_c9f2078d9167fe3953b702a46d2b8738/node_modules/@nuxtjs/i18n/dist/runtime/composables/index';
+export { useNuxtDevTools } from '../node_modules/.pnpm/@nuxt+devtools@2.4.0_vite@6.3.4_@types+node@22.15.3_jiti@2.4.2_lightningcss@1.29.2_sass_5ec2a5e26d7a14acfb15aac5eaa1fb91/node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools';
 export { definePageMeta } from '../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/pages/runtime/composables';

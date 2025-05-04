@@ -132,7 +132,7 @@
         "./nuxt-i18n-logger"
       ],
       "#app-manifest": [
-        "./manifest/meta/dda7965a-1aa1-4822-9b91-35fd1a558fe3"
+        "./manifest/meta/dev"
       ],
       "#components": [
         "./components"

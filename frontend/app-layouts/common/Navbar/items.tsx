@@ -3,24 +3,38 @@ import { renderIcon } from "@/utils"
 import { h } from "vue"
 import { RouterLink } from "vue-router"
 
-const BlankIcon = "carbon:document-blank"
+const HomeIcon = "carbon:home"
+const AgentsIcon = "carbon:user-multiple"
 
-// eslint-disable-next-line unused-imports/no-unused-vars
 export default function getItems(args: { mode: "vertical" | "horizontal"; collapsed: boolean }): MenuMixedOption[] {
-	return [
-		{
-			label: () =>
-				h(
-					RouterLink,
-					{
-						to: {
-							name: "BlankPage"
-						}
-					},
-					{ default: () => "Blank Page" }
-				),
-			key: "BlankPage",
-			icon: renderIcon(BlankIcon)
-		}
-	]
+    return [
+        {
+            label: () =>
+                h(
+                    RouterLink,
+                    {
+                        to: {
+                            name: "HomePage"
+                        }
+                    },
+                    { default: () => "Home" }
+                ),
+            key: "HomePage",
+            icon: renderIcon(HomeIcon)
+        },
+        {
+            label: () =>
+                h(
+                    RouterLink,
+                    {
+                        to: {
+                            name: "AgentsPage"
+                        }
+                    },
+                    { default: () => "Agents" }
+                ),
+            key: "AgentsPage",
+            icon: renderIcon(AgentsIcon)
+        }
+    ]
 }

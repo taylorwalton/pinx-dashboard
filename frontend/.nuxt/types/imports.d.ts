@@ -2,6 +2,7 @@
 export {}
 declare global {
   const COLOR_SHADES: typeof import('../../utils/theme')['COLOR_SHADES']
+  const HttpClient: typeof import('../../utils/httpClient')['HttpClient']
   const abortNavigation: typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/composables/router')['abortNavigation']
   const acceptHMRUpdate: typeof import('../../node_modules/.pnpm/@pinia+nuxt@0.10.1_magicast@0.3.5_pinia@3.0.2_typescript@5.8.3_vue@3.5.13_typescript@5.8.3__/node_modules/@pinia/nuxt/dist/runtime/composables')['acceptHMRUpdate']
   const addRouteMiddleware: typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/composables/router')['addRouteMiddleware']
@@ -101,7 +102,6 @@ declare global {
   const renderIcon: typeof import('../../utils/index')['renderIcon']
   const requestIdleCallback: typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/compat/idle-callback')['requestIdleCallback']
   const resolveComponent: typeof import('vue')['resolveComponent']
-  const setInterval: typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/compat/interval')['setInterval']
   const setPageLayout: typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/composables/router')['setPageLayout']
   const setResponseStatus: typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/composables/ssr')['setResponseStatus']
   const shallowReactive: typeof import('vue')['shallowReactive']
@@ -119,6 +119,8 @@ declare global {
   const unref: typeof import('vue')['unref']
   const updateAppConfig: typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/config')['updateAppConfig']
   const useAddFonts: typeof import('../../composables/useAddFonts')['useAddFonts']
+  const useAgentsStore: typeof import('../../stores/agents.store')['useAgentsStore']
+  const useApiClient: typeof import('../../composables/useApiClient')['useApiClient']
   const useAppConfig: typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/config')['useAppConfig']
   const useAsyncData: typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/composables/asyncData')['useAsyncData']
   const useAttrs: typeof import('vue')['useAttrs']
@@ -130,6 +132,7 @@ declare global {
   const useCssVars: typeof import('vue')['useCssVars']
   const useDevice: typeof import('../../node_modules/.pnpm/@nuxtjs+device@3.2.4/node_modules/@nuxtjs/device/dist/runtime/composables/useDevice')['useDevice']
   const useError: typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/composables/error')['useError']
+  const useErrorHandler: typeof import('../../composables/useErrorHandler')['useErrorHandler']
   const useFetch: typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/composables/fetch')['useFetch']
   const useFullscreenSwitch: typeof import('../../composables/useFullscreenSwitch')['useFullscreenSwitch']
   const useGlobalActions: typeof import('../../composables/useGlobalActions')['useGlobalActions']
@@ -154,6 +157,7 @@ declare global {
   const useNotifications: typeof import('../../composables/useNotifications')['useNotifications']
   const useNuxtApp: typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/nuxt')['useNuxtApp']
   const useNuxtData: typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/composables/asyncData')['useNuxtData']
+  const useNuxtDevTools: typeof import('../../node_modules/.pnpm/@nuxt+devtools@2.4.0_vite@6.3.4_@types+node@22.15.3_jiti@2.4.2_lightningcss@1.29.2_sass_5ec2a5e26d7a14acfb15aac5eaa1fb91/node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools')['useNuxtDevTools']
   const usePinia: typeof import('../../node_modules/.pnpm/@pinia+nuxt@0.10.1_magicast@0.3.5_pinia@3.0.2_typescript@5.8.3_vue@3.5.13_typescript@5.8.3__/node_modules/@pinia/nuxt/dist/runtime/composables')['usePinia']
   const usePreviewMode: typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/composables/preview')['usePreviewMode']
   const useRequestEvent: typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/composables/ssr')['useRequestEvent']
@@ -231,6 +235,9 @@ declare global {
   export type { NotificationCategory, NotificationType, Notification, PrependOptions } from '../../composables/useNotifications'
   import('../../composables/useNotifications')
   // @ts-ignore
+  export type { HttpClient } from '../../utils/httpClient'
+  import('../../utils/httpClient')
+  // @ts-ignore
   export type { OS } from '../../utils/index'
   import('../../utils/index')
   // @ts-ignore
@@ -242,6 +249,7 @@ import { UnwrapRef } from 'vue'
 declare module 'vue' {
   interface ComponentCustomProperties {
     readonly COLOR_SHADES: UnwrapRef<typeof import('../../utils/theme')['COLOR_SHADES']>
+    readonly HttpClient: UnwrapRef<typeof import('../../utils/httpClient')['HttpClient']>
     readonly abortNavigation: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/composables/router')['abortNavigation']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('../../node_modules/.pnpm/@pinia+nuxt@0.10.1_magicast@0.3.5_pinia@3.0.2_typescript@5.8.3_vue@3.5.13_typescript@5.8.3__/node_modules/@pinia/nuxt/dist/runtime/composables')['acceptHMRUpdate']>
     readonly addRouteMiddleware: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/composables/router')['addRouteMiddleware']>
@@ -341,7 +349,6 @@ declare module 'vue' {
     readonly renderIcon: UnwrapRef<typeof import('../../utils/index')['renderIcon']>
     readonly requestIdleCallback: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/compat/idle-callback')['requestIdleCallback']>
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
-    readonly setInterval: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/compat/interval')['setInterval']>
     readonly setPageLayout: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/composables/router')['setPageLayout']>
     readonly setResponseStatus: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/composables/ssr')['setResponseStatus']>
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
@@ -359,6 +366,8 @@ declare module 'vue' {
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly updateAppConfig: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/config')['updateAppConfig']>
     readonly useAddFonts: UnwrapRef<typeof import('../../composables/useAddFonts')['useAddFonts']>
+    readonly useAgentsStore: UnwrapRef<typeof import('../../stores/agents.store')['useAgentsStore']>
+    readonly useApiClient: UnwrapRef<typeof import('../../composables/useApiClient')['useApiClient']>
     readonly useAppConfig: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/config')['useAppConfig']>
     readonly useAsyncData: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/composables/asyncData')['useAsyncData']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
@@ -370,6 +379,7 @@ declare module 'vue' {
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useDevice: UnwrapRef<typeof import('../../node_modules/.pnpm/@nuxtjs+device@3.2.4/node_modules/@nuxtjs/device/dist/runtime/composables/useDevice')['useDevice']>
     readonly useError: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/composables/error')['useError']>
+    readonly useErrorHandler: UnwrapRef<typeof import('../../composables/useErrorHandler')['useErrorHandler']>
     readonly useFetch: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/composables/fetch')['useFetch']>
     readonly useFullscreenSwitch: UnwrapRef<typeof import('../../composables/useFullscreenSwitch')['useFullscreenSwitch']>
     readonly useGlobalActions: UnwrapRef<typeof import('../../composables/useGlobalActions')['useGlobalActions']>
@@ -394,6 +404,7 @@ declare module 'vue' {
     readonly useNotifications: UnwrapRef<typeof import('../../composables/useNotifications')['useNotifications']>
     readonly useNuxtApp: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/nuxt')['useNuxtApp']>
     readonly useNuxtData: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/composables/asyncData')['useNuxtData']>
+    readonly useNuxtDevTools: UnwrapRef<typeof import('../../node_modules/.pnpm/@nuxt+devtools@2.4.0_vite@6.3.4_@types+node@22.15.3_jiti@2.4.2_lightningcss@1.29.2_sass_5ec2a5e26d7a14acfb15aac5eaa1fb91/node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools')['useNuxtDevTools']>
     readonly usePinia: UnwrapRef<typeof import('../../node_modules/.pnpm/@pinia+nuxt@0.10.1_magicast@0.3.5_pinia@3.0.2_typescript@5.8.3_vue@3.5.13_typescript@5.8.3__/node_modules/@pinia/nuxt/dist/runtime/composables')['usePinia']>
     readonly usePreviewMode: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/composables/preview')['usePreviewMode']>
     readonly useRequestEvent: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/composables/ssr')['useRequestEvent']>
