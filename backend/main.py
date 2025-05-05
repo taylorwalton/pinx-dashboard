@@ -192,7 +192,7 @@ async def get_agents(current_user: TokenData = Depends(get_current_user)):
     return agents
 
 
-@app.get("/agents/{agent_id}", dependencies=[Depends(has_role(["admin", "agent-viewer"]))])
+@app.get("/agents/{agent_id}", dependencies=[Depends(has_role(["admin", "agent-viewer", "user"]))])
 async def get_agent(agent_id: int, current_user: TokenData = Depends(get_current_user)):
     logger.info(f"User {current_user.username} accessing agent {agent_id}")
     agents = [

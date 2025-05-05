@@ -8,6 +8,11 @@ overrides:
   '@typescript-eslint/typescript-estree': ^8.26.1
   vite-plugin-checker>vue-tsc: ^2.2.8
 
+patchedDependencies:
+  lodash-es@4.17.21:
+    hash: 3c4843b694123faa2a48caea9ecc922f7ad0a25aa0a0d790a420498e172210c8
+    path: patches/lodash-es@4.17.21/_getRawTag.js
+
 importers:
 
   .:
@@ -11151,7 +11156,7 @@ snapshots:
     dependencies:
       p-locate: 6.0.0
 
-  lodash-es@4.17.21: {}
+  lodash-es@4.17.21(patch_hash=3c4843b694123faa2a48caea9ecc922f7ad0a25aa0a0d790a420498e172210c8): {}
 
   lodash.debounce@4.0.8: {}
 
@@ -11678,7 +11683,7 @@ snapshots:
       evtd: 0.2.4
       highlight.js: 11.11.1
       lodash: 4.17.21
-      lodash-es: 4.17.21
+      lodash-es: 4.17.21(patch_hash=3c4843b694123faa2a48caea9ecc922f7ad0a25aa0a0d790a420498e172210c8)
       seemly: 0.3.10
       treemate: 0.3.11
       vdirs: 0.1.8(vue@3.5.13(typescript@5.8.3))
@@ -11705,7 +11710,7 @@ snapshots:
   netlify@13.3.5:
     dependencies:
       '@netlify/open-api': 2.37.0
-      lodash-es: 4.17.21
+      lodash-es: 4.17.21(patch_hash=3c4843b694123faa2a48caea9ecc922f7ad0a25aa0a0d790a420498e172210c8)
       micro-api-client: 3.3.0
       node-fetch: 3.3.2
       p-wait-for: 5.0.2

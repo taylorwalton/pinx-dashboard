@@ -58,8 +58,9 @@ class KeycloakService {
     return this.keycloak.login();
   }
   
+  // No changes needed if this file already exists
   logout() {
-    if (!this.keycloak) throw new Error('Keycloak not initialized');
+    if (!this.keycloak) return Promise.resolve();
     return this.keycloak.logout();
   }
   

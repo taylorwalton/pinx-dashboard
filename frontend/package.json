@@ -100,7 +100,10 @@
 			"@parcel/watcher",
 			"cypress",
 			"esbuild"
-		]
+		],
+		"patchedDependencies": {
+			"lodash-es@4.17.21": "patches/lodash-es@4.17.21/_getRawTag.js"
+		}
 	},
 	"overrides": {
 		"@nuxt/test-utils": {

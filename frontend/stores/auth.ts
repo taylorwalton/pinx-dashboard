@@ -63,21 +63,27 @@ export const useAuthStore = defineStore("auth", {
       }
     },
     
-    async logout() {
-      if (process.server) return;
-      
-      try {
-        await keycloakService.logout();
-        
-        // Reset state
-        this.logged = false;
-        this.roles = [];
-        this.user = null;
-        this.token = null;
-      } catch (error) {
-        console.error('Logout error:', error);
-      }
-    }
+    // In your auth store
+async logout() {
+	if (process.server) return;
+	
+	try {
+	  // Reset state FIRST before calling Keycloak logout
+	  this.logged = false;
+	  this.roles = [];
+	  this.user = null;
+	  this.token = null;
+	  
+	  // Only try to call Keycloak after state is reset
+	  if (typeof window !== 'undefined' && keycloakService?.logout) {
+		return keycloakService.logout().catch(err => {
+		  console.warn('Non-critical error during Keycloak logout:', err);
+		});
+	  }
+	} catch (error) {
+	  console.error('Logout error:', error);
+	}
+  }
   },
   
   getters: {
