@@ -54,18 +54,35 @@ export class HttpClient {
       ...options,
       headers,
     };
-
+  
     try {
       return await $fetch<T>(`${this.baseURL}${url}`, mergedOptions);
     } catch (error: any) {
-      // Handle 401 Unauthorized errors
+      // Handle different error types
       if (error.response?.status === 401) {
         // Token expired, redirect to login
         authStore.logout();
         navigateTo('/login');
+        // Return a Promise that never resolves to prevent further code execution
+        return new Promise(() => {});
       }
       
+      // Special handling for 403 errors - don't throw, return a structured error instead
+      if (error.response?.status === 403) {
+        console.warn('Permission denied:', error.response.statusText);
+        
+        // Instead of throwing, return a special result that stores can check
+        return {
+          __error: true,
+          __status: 403,
+          __message: error.response.statusText || 'Forbidden'
+        } as any;
+      }
+      
+      // Log all other errors
       console.error('API request failed:', error);
+      
+      // Re-throw other errors
       throw error;
     }
   }
