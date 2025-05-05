@@ -89,7 +89,10 @@ export const useAuthStore = defineStore("auth", {
         
         // Only try to call Keycloak after state is reset
         if (typeof window !== 'undefined' && keycloakService?.logout) {
-          return keycloakService.logout().catch(err => {
+          // Specify redirectUri for proper Keycloak logout flow
+          return keycloakService.logout({ 
+            redirectUri: window.location.origin + '/auth/login'
+          }).catch(err => {
             console.warn('Non-critical error during Keycloak logout:', err);
           });
         }

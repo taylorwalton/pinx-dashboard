@@ -58,10 +58,15 @@ class KeycloakService {
     return this.keycloak.login();
   }
   
-  // No changes needed if this file already exists
-  logout() {
+  logout(options: { redirectUri?: string } = {}) {
     if (!this.keycloak) return Promise.resolve();
-    return this.keycloak.logout();
+    
+    // Set default redirect if none provided
+    if (!options.redirectUri) {
+      options.redirectUri = window.location.origin + '/auth/login';
+    }
+    
+    return this.keycloak.logout(options);
   }
   
   updateToken(minValidity = 30) {
