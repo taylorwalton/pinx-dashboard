@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { useAgentService } from '~/services/agent.service'
+import { useAgentsService } from '~/services/agent.service'
 import type { Agent } from '~/types/agent.types'
 import { useErrorHandler } from '~/composables/useErrorHandler'
 
@@ -17,8 +17,8 @@ export const useAgentsStore = defineStore('agents', {
       this.error = null
       
       try {
-        const agentService = useAgentService()
-        const data = await agentService.getAgents()
+        const agentsService = useAgentsService()
+        const data = await agentsService.getAgents()
         this.agents = data
       } catch (err: any) {
         const { handleError } = useErrorHandler()
@@ -33,8 +33,9 @@ export const useAgentsStore = defineStore('agents', {
       this.error = null
       
       try {
-        const agentService = useAgentService()
-        const data = await agentService.getAgentById(id)
+        const agentsService = useAgentsService()
+        // Changed from getAgentById to getAgent to match the service
+        const data = await agentsService.getAgent(id)
         this.currentAgent = data
       } catch (err: any) {
         const { handleError } = useErrorHandler()

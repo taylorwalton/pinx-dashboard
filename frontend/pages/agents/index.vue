@@ -9,7 +9,7 @@
           </div>
           <div v-else-if="error" class="mt-4">
             <n-alert type="error" title="Error loading agents">
-              <p>{{ error.message }}</p>
+              <p>{{ error }}</p>
             </n-alert>
           </div>
           <div v-else>
@@ -27,95 +27,100 @@
   </template>
   
   <script setup lang="ts">
-    import { h, ref, computed } from 'vue'
+    import { h, ref, onMounted } from 'vue'
     import { 
-    NCard, 
-    NSpace, 
-    NSpin, 
-    NAlert, 
-    NDataTable, 
-    NButton,
-    useMessage
+      NCard, 
+      NSpace, 
+      NSpin, 
+      NAlert, 
+      NDataTable, 
+      NButton,
+      useMessage
     } from 'naive-ui'
     import type { DataTableColumns } from 'naive-ui'
     import { useRouter } from 'vue-router'
-    import type { Agent } from '~/types/agent.types' // Corrected import path
+    import type { Agent } from '~/types/agent.types'
+    import { useAgentsService } from '~/services/agent.service'
   
-
-  
-  // Define page metadata for Nuxt
-  definePageMeta({
-    name: "AgentsPage",
-    title: "Agents",
-    auth: true,
-    roles: "all"
-  })
-  
-  // Access runtime config and setup router
-  const config = useRuntimeConfig()
-  const message = useMessage()
-  const router = useRouter()
-  
-  // Configure table pagination
-  const pagination = {
-    pageSize: 10
-  }
-  
-  // Define table columns with TypeScript types
-  const columns: DataTableColumns<Agent> = [
-    {
-      title: 'ID',
-      key: 'id',
-      sorter: 'default'
-    },
-    {
-      title: 'Name',
-      key: 'name',
-      sorter: (a, b) => a.name.localeCompare(b.name)
-    },
-    {
-      title: 'Actions',
-      key: 'actions',
-      render(row) {
-        return h(
-          NButton,
-          {
-            size: 'small',
-            quaternary: true,
-            type: 'info',
-            onClick: (e) => {
-              e.stopPropagation()
-              handleViewAgent(row)
-            }
-          },
-          { default: () => 'View Details' }
-        )
-      }
+    // Define page metadata for Nuxt
+    definePageMeta({
+      name: "AgentsPage",
+      title: "Agents",
+      auth: true,
+      roles: "all"
+    })
+    
+    // Setup
+    const message = useMessage()
+    const router = useRouter()
+    const agentsService = useAgentsService()
+    
+    // State
+    const agents = ref<Agent[]>([])
+    const pending = ref(true)
+    const error = ref<string | null>(null)
+    
+    // Configure table pagination
+    const pagination = {
+      pageSize: 10
     }
-  ]
-  
-  // Fetch agents data on page load
-  const { data, pending, error } = useFetch<Agent[]>(
-    () => `${config.public.apiBase}/agents`,
-    {
-      key: 'agents-list',
-      onResponseError({ response }) {
-        message.error(`Failed to load agents: ${response.statusText}`)
+    
+    // Define table columns with TypeScript types
+    const columns: DataTableColumns<Agent> = [
+      {
+        title: 'ID',
+        key: 'id',
+        sorter: 'default'
+      },
+      {
+        title: 'Name',
+        key: 'name',
+        sorter: (a, b) => a.name.localeCompare(b.name)
+      },
+      {
+        title: 'Actions',
+        key: 'actions',
+        render(row) {
+          return h(
+            NButton,
+            {
+              size: 'small',
+              quaternary: true,
+              type: 'info',
+              onClick: (e) => {
+                e.stopPropagation()
+                handleViewAgent(row)
+              }
+            },
+            { default: () => 'View Details' }
+          )
+        }
       }
+    ]
+    
+    // Fetch agents data on page load
+    onMounted(async () => {
+      pending.value = true
+      error.value = null
+      
+      try {
+        agents.value = await agentsService.getAgents()
+      } catch (err: any) {
+        error.value = err.message || 'Failed to load agents'
+        message.error(`Failed to load agents: ${error.value}`)
+      } finally {
+        pending.value = false
+      }
+    })
+    
+    // Handler for view button and row click
+    function handleViewAgent(agent: Agent) {
+      router.push(`/agents/${agent.id}`)
     }
-  )
-  
-  // Create a computed property with a fallback for the agents data
-  const agents = computed(() => data.value || [])
-  
-  // Handler for view button and row click
-  function handleViewAgent(agent: Agent) {
-    router.push(`/agents/${agent.id}`)
-  }
-  
-  function handleRowClick(row: Agent) {
-    handleViewAgent(row)
-  }
+    
+    function handleRowClick(row: Agent) {
+      handleViewAgent(row)
+    }
   </script>
   
   <style scoped>

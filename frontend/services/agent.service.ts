@@ -1,16 +1,16 @@
-import type { Agent } from '~/types/agent.types';
 import { ApiService } from './api.service';
+import type { Agent } from '~/types/agent.types';
 
-export class AgentService extends ApiService {
+export class AgentsService extends ApiService {
   async getAgents(): Promise<Agent[]> {
-    return this.httpClient.get<Agent[]>('/agents')
+    return this.httpClient.get<Agent[]>('/agents');
   }
 
-  async getAgentById(id: number | string): Promise<Agent> {
-    return this.httpClient.get<Agent>(`/agents/${id}`)
+  async getAgent(id: number): Promise<Agent> {
+    return this.httpClient.get<Agent>(`/agents/${id}`);
   }
 }
 
-export function useAgentService() {
-  return new AgentService()
+export function useAgentsService() {
+  return new AgentsService();
 }
