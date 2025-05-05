@@ -34,40 +34,40 @@
       </div>
       
       <!-- Filters -->
-<n-card class="mb-6">
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-    <n-form-item label="Severity" class="mb-0">
-      <n-select
-        v-model:value="filters.severity"
-        placeholder="All Severities"
-        :options="severityOptions"
-        clearable
-        class="w-full"
-      />
-    </n-form-item>
-    
-    <n-form-item label="Status" class="mb-0">
-      <n-select
-        v-model:value="filters.status"
-        placeholder="All Statuses"
-        :options="statusOptions"
-        clearable
-        class="w-full"
-      />
-    </n-form-item>
-    
-    <n-form-item label="Agent" class="mb-0">
-      <n-select
-        v-model:value="filters.agentId"
-        placeholder="All Agents"
-        :options="agentOptions"
-        clearable
-        class="w-full"
-      />
-    </n-form-item>
-  </div>
-</n-card>
-      
+      <n-card class="mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <n-form-item label="Severity" class="mb-0">
+            <n-select
+              v-model:value="filters.severity"
+              placeholder="All Severities"
+              :options="severityOptions"
+              clearable
+              class="w-full"
+            />
+          </n-form-item>
+          
+          <n-form-item label="Status" class="mb-0">
+            <n-select
+              v-model:value="filters.status"
+              placeholder="All Statuses"
+              :options="statusOptions"
+              clearable
+              class="w-full"
+            />
+          </n-form-item>
+          
+          <n-form-item label="Agent" class="mb-0">
+            <n-select
+              v-model:value="filters.agentId"
+              placeholder="All Agents"
+              :options="agentOptions"
+              clearable
+              class="w-full"
+            />
+          </n-form-item>
+        </div>
+      </n-card>
+        
       <!-- Data Table -->
       <n-card>
         <div v-if="vulnerabilitiesStore.loading" class="py-8 flex justify-center">
@@ -91,7 +91,7 @@
   
   <script setup lang="ts">
   import { ref, computed, onMounted, h } from 'vue'
-  import { useRouter } from 'vue-router'
+  import { useRouter, useRoute } from 'vue-router'
   import { NCard, NDataTable, NSpin, NAlert, NSelect, NFormItem, NTag } from 'naive-ui'
   import { useVulnerabilitiesStore } from '@/stores/vulnerabilities.store'
   import type { DataTableColumns } from 'naive-ui'
@@ -106,11 +106,24 @@
   })
   
   const router = useRouter()
+  const route = useRoute()  // Add this to access route params
   const vulnerabilitiesStore = useVulnerabilitiesStore()
   
-  // Fetch data on component mount
-  onMounted(() => {
-    vulnerabilitiesStore.fetchVulnerabilities()
+  // Fetch data and process URL parameters on component mount
+  onMounted(async () => {
+    // First fetch vulnerabilities
+    await vulnerabilitiesStore.fetchVulnerabilities()
+    
+    // Check for and apply URL parameters after data is loaded
+    if (route.query.agent) {
+      // Convert the agent parameter to a number
+      const agentId = parseInt(route.query.agent as string)
+      
+      // Only set if it's a valid number
+      if (!isNaN(agentId)) {
+        filters.value.agentId = agentId
+      }
+    }
   })
   
   // Pagination settings
