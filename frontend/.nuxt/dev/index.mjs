@@ -885,6 +885,9 @@ const _inlineRuntimeConfig = {
   },
   "public": {
     "apiBase": "http://localhost:8000",
+    "keycloakUrl": "http://localhost:8080",
+    "keycloakRealm": "pinx-dashboard",
+    "keycloakClientId": "pinx-frontend",
     "piniaPluginPersistedstate": {
       "key": "__persisted__%id"
     },

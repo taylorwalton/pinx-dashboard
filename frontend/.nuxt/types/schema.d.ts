@@ -210,6 +210,12 @@ declare module 'nuxt/schema' {
   interface PublicRuntimeConfig {
    apiBase: string,
 
+   keycloakUrl: string,
+
+   keycloakRealm: string,
+
+   keycloakClientId: string,
+
    piniaPluginPersistedstate: {
       key: string,
    },

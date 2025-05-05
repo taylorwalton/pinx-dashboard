@@ -9,7 +9,10 @@ import { pagesExtend } from "./pages-extend"
 export default defineNuxtConfig({
 	runtimeConfig: {
 		public: {
-		  apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:8000'
+		  apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:8000',
+		  keycloakUrl: process.env.NUXT_PUBLIC_KEYCLOAK_URL,
+		  keycloakRealm: process.env.NUXT_PUBLIC_KEYCLOAK_REALM,
+		  keycloakClientId: process.env.NUXT_PUBLIC_KEYCLOAK_CLIENT_ID
 		}
 	  },
 	devtools: { enabled: true },

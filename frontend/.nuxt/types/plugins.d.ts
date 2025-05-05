@@ -28,6 +28,7 @@ type NuxtAppInjections =
   InjectionType<typeof import("../../node_modules/.pnpm/pinia-plugin-persistedstate@4.2.0_@pinia+nuxt@0.10.1_magicast@0.3.5_pinia@3.0.2_typescr_8340d5f59c36b613ceee35c590490a79/node_modules/pinia-plugin-persistedstate/dist/nuxt/runtime/plugin.js")> &
   InjectionType<typeof import("../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/plugins/dev-server-logs.js")> &
   InjectionType<typeof import("../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/plugins/check-if-layout-used.js")> &
+  InjectionType<typeof import("../../plugins/auth")> &
   InjectionType<typeof import("../../plugins/router-transition.client")> &
   InjectionType<typeof import("../../node_modules/.pnpm/@nuxtjs+i18n@9.5.4_@vue+compiler-dom@3.5.13_eslint@9.26.0_jiti@2.4.2__magicast@0.3.5_ro_c9f2078d9167fe3953b702a46d2b8738/node_modules/@nuxtjs/i18n/dist/runtime/plugins/ssg-detect.js")>
 
