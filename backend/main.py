@@ -34,13 +34,64 @@ ALGORITHM = "RS256"
 KEYCLOAK_CLIENT_SECRET = "sWw8oqnA3niTzqgi30LXqcAj7wfjf0HR"
 
 
-# Models for auth
+# Token data model with company info
 class TokenData(BaseModel):
     sub: Optional[str] = None
     username: Optional[str] = None
     email: Optional[str] = None
     roles: List[str] = []
     name: Optional[str] = None
+    company_id: Optional[int] = None
+    company_name: Optional[str] = None
+
+# In-memory database
+db = {
+    "companies": [
+        {"id": 1, "name": "Acme Corp"},
+        {"id": 2, "name": "Umbrella Inc"},
+        {"id": 3, "name": "Stark Industries"}
+    ],
+    "agents": [
+        {"id": 1, "name": "Agent 1", "company_id": 1, "status": "active"},
+        {"id": 2, "name": "Agent 2", "company_id": 1, "status": "inactive"},
+        {"id": 3, "name": "Agent 3", "company_id": 2, "status": "active"},
+        {"id": 4, "name": "Agent 4", "company_id": 2, "status": "active"},
+        {"id": 5, "name": "Agent 5", "company_id": 3, "status": "active"}
+    ]
+}
+
+# Helper functions for company-based access control
+def filter_by_company(data_list, user_company_id, is_admin=False):
+    """Filter data based on company_id unless user is admin"""
+    if is_admin:
+        return data_list  # Admin can see all data
+    
+    # Regular users can only see data from their company
+    return [item for item in data_list if item.get("company_id") == user_company_id]
+
+def has_role(required_roles: List[str]):
+    """Dependency to check if user has required roles"""
+    async def _has_role(current_user: TokenData = Depends(get_current_user)):
+        if not current_user:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Not authenticated",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+        
+        # Always allow admin
+        if "admin" in current_user.roles:
+            return current_user
+            
+        # Check if user has any of the required roles
+        if not any(role in current_user.roles for role in required_roles):
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Not enough permissions",
+            )
+        
+        return current_user
+    return _has_role
 
 
 # Cache for public key to avoid fetching it on every request
@@ -106,13 +157,18 @@ async def get_current_user(token: Optional[str] = Depends(oauth2_scheme)) -> Tok
         realm_access = payload.get("realm_access", {})
         roles = realm_access.get("roles", [])
         logger.info(f"User {username} has roles: {roles}")
+
+        #Log all the General information of the user
+        logger.info(f"User info: {json.dumps(payload, indent=2)}")
         
         return TokenData(
             sub=payload.get("sub"),
             username=username,
             email=payload.get("email"),
             roles=roles,
-            name=payload.get("name")
+            name=payload.get("name"),
+            company_id=int(payload.get("company_id")) if payload.get("company_id") else None,
+            company_name=payload.get("company_name")
         )
     except JWTError as e:
         logger.error(f"JWT error: {str(e)}")
@@ -179,31 +235,44 @@ async def hello(name: str = None, current_user: TokenData = Depends(get_current_
         logger.info("Hello anonymous")
         return {"message": "FastAPI says hello 👋"}
 
-
-@app.get("/agents", dependencies=[Depends(has_role(["user", "admin", "agent-viewer"]))])
+# API endpoints with company-based filtering
+@app.get("/agents", dependencies=[Depends(has_role(["admin", "agent-viewer", "user"]))])
 async def get_agents(current_user: TokenData = Depends(get_current_user)):
     logger.info(f"User {current_user.username} accessed agents list")
-    agents = [
-        {"id": 1, "name": "Agent 1"},
-        {"id": 2, "name": "Agent 2"},
-        {"id": 3, "name": "Agent 3"},
-    ]
-    logger.info("Returning list of agents")
-    return agents
-
+    
+    # Filter agents by company_id from token
+    is_admin = "admin" in current_user.roles
+    filtered_agents = filter_by_company(db["agents"], current_user.company_id, is_admin)
+    
+    logger.info(f"Returning list of {len(filtered_agents)} agents for company {current_user.company_id}")
+    return filtered_agents
 
 @app.get("/agents/{agent_id}", dependencies=[Depends(has_role(["admin", "agent-viewer", "user"]))])
 async def get_agent(agent_id: int, current_user: TokenData = Depends(get_current_user)):
-    logger.info(f"User {current_user.username} accessing agent {agent_id}")
-    agents = [
-        {"id": 1, "name": "Agent 1"},
-        {"id": 2, "name": "Agent 2"},
-        {"id": 3, "name": "Agent 3"},
-    ]
-    agent = next((agent for agent in agents if agent["id"] == agent_id), None)
-    if agent:
-        logger.info(f"Returning details for agent {agent_id}")
-        return agent
-    else:
+    # Find the agent in our in-memory database
+    agent = next((agent for agent in db["agents"] if agent["id"] == agent_id), None)
+    
+    if not agent:
         logger.warning(f"Agent {agent_id} not found")
         raise HTTPException(status_code=404, detail="Agent not found")
+    
+    # Check if user has access to this agent's company
+    is_admin = "admin" in current_user.roles
+    if not is_admin and agent["company_id"] != current_user.company_id:
+        logger.warning(f"User {current_user.username} attempted to access agent {agent_id} from another company")
+        raise HTTPException(status_code=403, detail="You don't have permission to access this agent")
+    
+    logger.info(f"Returning details for agent {agent_id}")
+    return agent
+
+@app.get("/companies", dependencies=[Depends(has_role(["admin", "user"]))])
+async def get_companies(current_user: TokenData = Depends(get_current_user)):
+    # Only admins can see all companies
+    is_admin = "admin" in current_user.roles
+    
+    if is_admin:
+        return db["companies"]
+    else:
+        # Regular users can only see their own company
+        company = next((c for c in db["companies"] if c["id"] == current_user.company_id), None)
+        return [company] if company else []

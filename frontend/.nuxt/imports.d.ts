@@ -45,6 +45,7 @@ export { file2Base64, isEnvDev, isEnvTest, isEnvProd, isMobile, renderIcon, getO
 export { COLOR_SHADES, toggleSidebarClass, colorToArray, exposure, getColorAlphaShades, getTypeValue, getThemeColors, expandPattern, ColorShade } from '../utils/theme';
 export { useAgentsStore } from '../stores/agents.store';
 export { useAuthStore } from '../stores/auth';
+export { useCompanyStore } from '../stores/company.store';
 export { useLocalesStore } from '../stores/i18n';
 export { useMainStore } from '../stores/main';
 export { useThemeStore } from '../stores/theme';

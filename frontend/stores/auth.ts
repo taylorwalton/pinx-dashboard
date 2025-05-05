@@ -10,6 +10,8 @@ export const useAuthStore = defineStore("auth", {
     roles: [] as Role[],
     user: null as UserProfile | null,
     token: null as string | null,
+    companyId: null as number | null,
+    companyName: null as string | null,
     initialized: false
   }),
   
@@ -24,14 +26,24 @@ export const useAuthStore = defineStore("auth", {
         if (authenticated) {
           const tokenParsed = keycloak.tokenParsed as any;
           
-          // Extract user info from token
+          // Extract company info from token
+          const companyId = tokenParsed.company_id ? parseInt(tokenParsed.company_id) : null;
+          const companyName = tokenParsed.company_name || null;
+          
+          // Store company info in state
+          this.companyId = companyId;
+          this.companyName = companyName;
+          
+          // Extract user info from token with company info
           this.user = {
             id: tokenParsed.sub,
             username: tokenParsed.preferred_username || '',
             email: tokenParsed.email || '',
             firstName: tokenParsed.given_name || '',
             lastName: tokenParsed.family_name || '',
-            roles: tokenParsed.realm_access?.roles || []
+            roles: tokenParsed.realm_access?.roles || [],
+            companyId: companyId,
+            companyName: companyName
           };
           
           // Save token and roles
@@ -63,27 +75,28 @@ export const useAuthStore = defineStore("auth", {
       }
     },
     
-    // In your auth store
-async logout() {
-	if (process.server) return;
-	
-	try {
-	  // Reset state FIRST before calling Keycloak logout
-	  this.logged = false;
-	  this.roles = [];
-	  this.user = null;
-	  this.token = null;
-	  
-	  // Only try to call Keycloak after state is reset
-	  if (typeof window !== 'undefined' && keycloakService?.logout) {
-		return keycloakService.logout().catch(err => {
-		  console.warn('Non-critical error during Keycloak logout:', err);
-		});
-	  }
-	} catch (error) {
-	  console.error('Logout error:', error);
-	}
-  }
+    async logout() {
+      if (process.server) return;
+      
+      try {
+        // Reset state FIRST before calling Keycloak logout
+        this.logged = false;
+        this.roles = [];
+        this.user = null;
+        this.token = null;
+        this.companyId = null;
+        this.companyName = null;
+        
+        // Only try to call Keycloak after state is reset
+        if (typeof window !== 'undefined' && keycloakService?.logout) {
+          return keycloakService.logout().catch(err => {
+            console.warn('Non-critical error during Keycloak logout:', err);
+          });
+        }
+      } catch (error) {
+        console.error('Logout error:', error);
+      }
+    }
   },
   
   getters: {
@@ -113,12 +126,33 @@ async logout() {
         
         return arrRoles.some(role => state.roles.includes(role));
       };
+    },
+    
+    // Company-related getters
+    hasCompany(state) {
+      return state.companyId !== null;
+    },
+    
+    currentCompany(state) {
+      return {
+        id: state.companyId,
+        name: state.companyName
+      };
+    },
+    
+    isAdmin(state) {
+      return state.roles.includes('admin');
+    },
+    
+    // Helper for API requests to determine if company filtering is needed
+    needsCompanyFilter(state) {
+      return state.logged && !state.roles.includes('admin') && state.companyId !== null;
     }
   },
   
   persist: {
     storage: piniaPluginPersistedstate.localStorage,
-    paths: ['logged', 'roles', 'token']
+    paths: ['logged', 'roles', 'token', 'companyId', 'companyName']
   }
 });
 

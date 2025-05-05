@@ -16,3 +16,14 @@ export interface UserProfile {
   lastName: string;
   roles: string[];
 }
+
+export interface UserProfile {
+  id: string;
+  username: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  roles: string[];
+  companyId: number | null;
+  companyName: string | null;
+}

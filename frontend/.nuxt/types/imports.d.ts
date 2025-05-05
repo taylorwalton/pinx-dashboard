@@ -126,6 +126,7 @@ declare global {
   const useAttrs: typeof import('vue')['useAttrs']
   const useAuthStore: typeof import('../../stores/auth')['useAuthStore']
   const useBrowserLocale: typeof import('../../node_modules/.pnpm/@nuxtjs+i18n@9.5.4_@vue+compiler-dom@3.5.13_eslint@9.26.0_jiti@2.4.2__magicast@0.3.5_ro_c9f2078d9167fe3953b702a46d2b8738/node_modules/@nuxtjs/i18n/dist/runtime/composables/index')['useBrowserLocale']
+  const useCompanyStore: typeof import('../../stores/company.store')['useCompanyStore']
   const useCookie: typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/composables/cookie')['useCookie']
   const useCookieLocale: typeof import('../../node_modules/.pnpm/@nuxtjs+i18n@9.5.4_@vue+compiler-dom@3.5.13_eslint@9.26.0_jiti@2.4.2__magicast@0.3.5_ro_c9f2078d9167fe3953b702a46d2b8738/node_modules/@nuxtjs/i18n/dist/runtime/composables/index')['useCookieLocale']
   const useCssModule: typeof import('vue')['useCssModule']
@@ -373,6 +374,7 @@ declare module 'vue' {
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
     readonly useAuthStore: UnwrapRef<typeof import('../../stores/auth')['useAuthStore']>
     readonly useBrowserLocale: UnwrapRef<typeof import('../../node_modules/.pnpm/@nuxtjs+i18n@9.5.4_@vue+compiler-dom@3.5.13_eslint@9.26.0_jiti@2.4.2__magicast@0.3.5_ro_c9f2078d9167fe3953b702a46d2b8738/node_modules/@nuxtjs/i18n/dist/runtime/composables/index')['useBrowserLocale']>
+    readonly useCompanyStore: UnwrapRef<typeof import('../../stores/company.store')['useCompanyStore']>
     readonly useCookie: UnwrapRef<typeof import('../../node_modules/.pnpm/nuxt@3.17.1_@parcel+watcher@2.5.1_@types+node@22.15.3_db0@0.3.2_eslint@9.26.0_jiti@2.4._cb341af8693ffaa2f524b82799857ceb/node_modules/nuxt/dist/app/composables/cookie')['useCookie']>
     readonly useCookieLocale: UnwrapRef<typeof import('../../node_modules/.pnpm/@nuxtjs+i18n@9.5.4_@vue+compiler-dom@3.5.13_eslint@9.26.0_jiti@2.4.2__magicast@0.3.5_ro_c9f2078d9167fe3953b702a46d2b8738/node_modules/@nuxtjs/i18n/dist/runtime/composables/index')['useCookieLocale']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
