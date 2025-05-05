@@ -5,6 +5,7 @@ import { RouterLink } from "vue-router"
 
 const HomeIcon = "carbon:home"
 const AgentsIcon = "carbon:user-multiple"
+const VulnerabilitiesIcon = "carbon:security" // Using a security icon for vulnerabilities
 
 export default function getItems(args: { mode: "vertical" | "horizontal"; collapsed: boolean }): MenuMixedOption[] {
     return [
@@ -35,6 +36,20 @@ export default function getItems(args: { mode: "vertical" | "horizontal"; collap
                 ),
             key: "AgentsPage",
             icon: renderIcon(AgentsIcon)
+        },
+        {
+            label: () =>
+                h(
+                    RouterLink,
+                    {
+                        to: {
+                            name: "Vulnerabilities"
+                        }
+                    },
+                    { default: () => "Vulnerabilities" }
+                ),
+            key: "Vulnerabilities",
+            icon: renderIcon(VulnerabilitiesIcon)
         }
     ]
 }

@@ -60,6 +60,141 @@ db = {
     ]
 }
 
+db["vulnerabilities"] = [
+    {
+        "id": 1,
+        "agent_id": 1,
+        "name": "Log4Shell",
+        "description": "Critical remote code execution vulnerability in Log4j",
+        "cve": "CVE-2021-44228",
+        "severity": "Critical",
+        "status": "Open",
+        "discovered": "2021-12-09",
+        "company_id": 1
+    },
+    {
+        "id": 2,
+        "agent_id": 1,
+        "name": "SpringShell",
+        "description": "Remote Code Execution in Spring Framework",
+        "cve": "CVE-2022-22965",
+        "severity": "High",
+        "status": "Open",
+        "discovered": "2022-03-31",
+        "company_id": 1
+    },
+    {
+        "id": 3,
+        "agent_id": 2,
+        "name": "OpenSSL Buffer Overflow",
+        "description": "Buffer overflow vulnerability in OpenSSL",
+        "cve": "CVE-2022-0778",
+        "severity": "Medium",
+        "status": "Mitigated",
+        "discovered": "2022-03-15",
+        "company_id": 1
+    },
+    {
+        "id": 4,
+        "agent_id": 3,
+        "name": "Follina MS-MSDT",
+        "description": "Zero-day vulnerability in Microsoft Support Diagnostic Tool",
+        "cve": "CVE-2022-30190",
+        "severity": "Critical",
+        "status": "Open",
+        "discovered": "2022-05-30",
+        "company_id": 2
+    },
+    {
+        "id": 5,
+        "agent_id": 3,
+        "name": "ProxyNotShell",
+        "description": "Exchange Server vulnerabilities allowing remote code execution",
+        "cve": "CVE-2022-41040",
+        "severity": "Critical",
+        "status": "Patched",
+        "discovered": "2022-09-29",
+        "company_id": 2
+    },
+    {
+        "id": 6,
+        "agent_id": 4,
+        "name": "Text4Shell",
+        "description": "Apache Commons Text RCE vulnerability",
+        "cve": "CVE-2022-42889",
+        "severity": "High",
+        "status": "Open",
+        "discovered": "2022-10-13",
+        "company_id": 2
+    },
+    {
+        "id": 7,
+        "agent_id": 5,
+        "name": "MOVEit Transfer",
+        "description": "SQL Injection vulnerability in MOVEit Transfer",
+        "cve": "CVE-2023-34362",
+        "severity": "Critical",
+        "status": "Open",
+        "discovered": "2023-05-31",
+        "company_id": 3
+    },
+    {
+        "id": 8,
+        "agent_id": 5,
+        "name": "PaperCut",
+        "description": "Authentication bypass vulnerability in PaperCut software",
+        "cve": "CVE-2023-27350",
+        "severity": "Critical",
+        "status": "Patched",
+        "discovered": "2023-04-17",
+        "company_id": 3
+    },
+    {
+        "id": 9,
+        "agent_id": 1,
+        "name": "SolarWinds Serv-U",
+        "description": "Authentication bypass vulnerability in SolarWinds Serv-U",
+        "cve": "CVE-2023-27524",
+        "severity": "High",
+        "status": "Open",
+        "discovered": "2023-03-23",
+        "company_id": 1
+    },
+    {
+        "id": 10,
+        "agent_id": 2,
+        "name": "GitLab Path Traversal",
+        "description": "Path traversal vulnerability in GitLab",
+        "cve": "CVE-2022-2884",
+        "severity": "Medium",
+        "status": "Mitigated",
+        "discovered": "2022-09-06",
+        "company_id": 1
+    },
+    {
+        "id": 11,
+        "agent_id": 3,
+        "name": "Microsoft Outlook Security Feature Bypass",
+        "description": "Vulnerability allowing email security features to be bypassed",
+        "cve": "CVE-2023-23397",
+        "severity": "High",
+        "status": "Open",
+        "discovered": "2023-03-14",
+        "company_id": 2
+    },
+    {
+        "id": 12,
+        "agent_id": 4,
+        "name": "Citrix Gateway Authentication Bypass",
+        "description": "Authentication bypass vulnerability in Citrix Gateway",
+        "cve": "CVE-2023-3519",
+        "severity": "Critical",
+        "status": "Open",
+        "discovered": "2023-07-18",
+        "company_id": 2
+    }
+]
+
 # Helper functions for company-based access control
 def filter_by_company(data_list, user_company_id, is_admin=False):
     """Filter data based on company_id unless user is admin"""
@@ -276,3 +411,47 @@ async def get_companies(current_user: TokenData = Depends(get_current_user)):
         # Regular users can only see their own company
         company = next((c for c in db["companies"] if c["id"] == current_user.company_id), None)
         return [company] if company else []
+    
+@app.get("/vulnerabilities", dependencies=[Depends(has_role(["admin", "agent-viewer", "user"]))])
+async def get_vulnerabilities(current_user: TokenData = Depends(get_current_user)):
+    logger.info(f"User {current_user.username} accessed vulnerabilities list")
+    
+    # Filter vulnerabilities by company_id from token
+    is_admin = "admin" in current_user.roles
+    filtered_vulnerabilities = filter_by_company(db["vulnerabilities"], current_user.company_id, is_admin)
+    
+    # Get agent details for each vulnerability
+    for vuln in filtered_vulnerabilities:
+        agent = next((a for a in db["agents"] if a["id"] == vuln["agent_id"]), None)
+        if agent:
+            vuln["agent_name"] = agent["name"]
+        else:
+            vuln["agent_name"] = "Unknown Agent"
+    
+    logger.info(f"Returning list of {len(filtered_vulnerabilities)} vulnerabilities for company {current_user.company_id}")
+    return filtered_vulnerabilities
+
+@app.get("/vulnerabilities/{vuln_id}", dependencies=[Depends(has_role(["admin", "agent-viewer", "user"]))])
+async def get_vulnerability(vuln_id: int, current_user: TokenData = Depends(get_current_user)):
+    # Find the vulnerability in our in-memory database
+    vuln = next((v for v in db["vulnerabilities"] if v["id"] == vuln_id), None)
+    
+    if not vuln:
+        logger.warning(f"Vulnerability {vuln_id} not found")
+        raise HTTPException(status_code=404, detail="Vulnerability not found")
+    
+    # Check if user has access to this vulnerability's company
+    is_admin = "admin" in current_user.roles
+    if not is_admin and vuln["company_id"] != current_user.company_id:
+        logger.warning(f"User {current_user.username} attempted to access vulnerability {vuln_id} from another company")
+        raise HTTPException(status_code=403, detail="You don't have permission to access this vulnerability")
+    
+    # Add agent details to the vulnerability
+    agent = next((a for a in db["agents"] if a["id"] == vuln["agent_id"]), None)
+    if agent:
+        vuln["agent_name"] = agent["name"]
+    else:
+        vuln["agent_name"] = "Unknown Agent"
+    
+    logger.info(f"Returning details for vulnerability {vuln_id}")
+    return vuln
