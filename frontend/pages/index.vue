@@ -50,6 +50,13 @@
 		  </n-space>
 		</n-card>
 	  </div>
+	  
+	  <!-- Full-width RSS Feed -->
+	  <div class="mt-6">
+		<client-only>
+		  <RssFeed feedUrl="https://feeds.feedburner.com/TheHackersNews?format=xml" :maxItems="6" />
+		</client-only>
+	  </div>
 	</div>
   </template>
   
@@ -60,6 +67,7 @@
   import { useErrorHandler } from '~/composables/useErrorHandler'
   import { useAgentsStore } from '~/stores/agents.store'
   import { useRouter } from 'vue-router'
+  import RssFeed from '~/components/common/RssFeed.vue'
   
   definePageMeta({
 	name: "HomePage",

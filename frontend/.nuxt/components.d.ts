@@ -20,6 +20,7 @@ interface _GlobalComponents {
     'List': typeof import("../components/common/Notifications/List.vue")['default']
     'Toolbar': typeof import("../components/common/Notifications/Toolbar.vue")['default']
     'PasswordStrengthMeter': typeof import("../components/common/PasswordStrengthMeter.vue")['default']
+    'RssFeed': typeof import("../components/common/RssFeed.vue")['default']
     'SearchDialog': typeof import("../components/common/SearchDialog.vue")['default']
     'TestScope': typeof import("../components/common/TestScope.vue")['default']
     'SvgoBrainIcon2': typeof import("../assets/icons/brain-icon-2")['default']
@@ -60,6 +61,7 @@ interface _GlobalComponents {
     'LazyList': LazyComponent<typeof import("../components/common/Notifications/List.vue")['default']>
     'LazyToolbar': LazyComponent<typeof import("../components/common/Notifications/Toolbar.vue")['default']>
     'LazyPasswordStrengthMeter': LazyComponent<typeof import("../components/common/PasswordStrengthMeter.vue")['default']>
+    'LazyRssFeed': LazyComponent<typeof import("../components/common/RssFeed.vue")['default']>
     'LazySearchDialog': LazyComponent<typeof import("../components/common/SearchDialog.vue")['default']>
     'LazyTestScope': LazyComponent<typeof import("../components/common/TestScope.vue")['default']>
     'LazySvgoBrainIcon2': LazyComponent<typeof import("../assets/icons/brain-icon-2")['default']>
@@ -106,6 +108,7 @@ export const LtrContext: typeof import("../components/common/LtrContext.vue")['d
 export const List: typeof import("../components/common/Notifications/List.vue")['default']
 export const Toolbar: typeof import("../components/common/Notifications/Toolbar.vue")['default']
 export const PasswordStrengthMeter: typeof import("../components/common/PasswordStrengthMeter.vue")['default']
+export const RssFeed: typeof import("../components/common/RssFeed.vue")['default']
 export const SearchDialog: typeof import("../components/common/SearchDialog.vue")['default']
 export const TestScope: typeof import("../components/common/TestScope.vue")['default']
 export const SvgoBrainIcon2: typeof import("../assets/icons/brain-icon-2")['default']
@@ -146,6 +149,7 @@ export const LazyLtrContext: LazyComponent<typeof import("../components/common/L
 export const LazyList: LazyComponent<typeof import("../components/common/Notifications/List.vue")['default']>
 export const LazyToolbar: LazyComponent<typeof import("../components/common/Notifications/Toolbar.vue")['default']>
 export const LazyPasswordStrengthMeter: LazyComponent<typeof import("../components/common/PasswordStrengthMeter.vue")['default']>
+export const LazyRssFeed: LazyComponent<typeof import("../components/common/RssFeed.vue")['default']>
 export const LazySearchDialog: LazyComponent<typeof import("../components/common/SearchDialog.vue")['default']>
 export const LazyTestScope: LazyComponent<typeof import("../components/common/TestScope.vue")['default']>
 export const LazySvgoBrainIcon2: LazyComponent<typeof import("../assets/icons/brain-icon-2")['default']>
