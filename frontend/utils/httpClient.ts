@@ -57,9 +57,16 @@ export class HttpClient {
   
     try {
       return await $fetch<T>(`${this.baseURL}${url}`, mergedOptions);
-    } catch (error: any) {
+    } catch (err: any) {
+      // Extract only what we need before any processing
+      const simpleError = {
+        status: err.response?.status,
+        message: typeof err.message === 'string' ? err.message : 'API request failed',
+        statusText: typeof err.response?.statusText === 'string' ? err.response.statusText : ''
+      };
+      
       // Handle different error types
-      if (error.response?.status === 401) {
+      if (simpleError.status === 401) {
         // Token expired, redirect to login
         authStore.logout();
         navigateTo('/login');
@@ -67,23 +74,24 @@ export class HttpClient {
         return new Promise(() => {});
       }
       
-      // Special handling for 403 errors - don't throw, return a structured error instead
-      if (error.response?.status === 403) {
-        console.warn('Permission denied:', error.response.statusText);
+      // Special handling for 403 errors - don't throw, return a structured error
+      if (simpleError.status === 403) {
+        console.warn('Permission denied:', simpleError.statusText || 'Forbidden');
         
-        // Instead of throwing, return a special result that stores can check
         return {
           __error: true,
           __status: 403,
-          __message: error.response.statusText || 'Forbidden'
+          __message: simpleError.statusText || 'Forbidden'
         } as any;
       }
       
-      // Log all other errors
-      console.error('API request failed:', error);
+      // Log all other errors with safe values only
+      console.error('API request failed:', simpleError.message);
       
-      // Re-throw other errors
-      throw error;
+      // Create a completely new error without referencing the original
+      const newError = new Error(simpleError.message);
+      newError.name = 'HttpClientError';
+      throw newError;
     }
   }
 }
