@@ -455,3 +455,27 @@ async def get_vulnerability(vuln_id: int, current_user: TokenData = Depends(get_
     
     logger.info(f"Returning details for vulnerability {vuln_id}")
     return vuln
+
+@app.put("/profile", dependencies=[Depends(has_role(["admin", "moderator", "user", "agent-viewer"]))])
+async def update_profile(
+    profile_data: dict, 
+    current_user: TokenData = Depends(get_current_user)
+):
+    # In a real application, you'd update the user in Keycloak
+    # For development, just return success
+    logger.info(f"User {current_user.username} attempted to update profile: {profile_data}")
+    
+    # Return updated profile
+    return {
+        "message": "Profile updated successfully",
+        "profile": {
+            "id": current_user.sub,
+            "username": profile_data.get("username", current_user.username),
+            "email": profile_data.get("email", current_user.email),
+            "firstName": profile_data.get("firstName"),
+            "lastName": profile_data.get("lastName"),
+            "roles": current_user.roles,
+            "companyId": current_user.company_id,
+            "companyName": current_user.company_name
+        }
+    }

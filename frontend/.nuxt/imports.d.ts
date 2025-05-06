@@ -49,7 +49,7 @@ export { useCompanyStore } from '../stores/company.store';
 export { useLocalesStore } from '../stores/i18n';
 export { useMainStore } from '../stores/main';
 export { useThemeStore } from '../stores/theme';
-export { useVulnerabilitiesStore } from '../stores/vulnerabilities.store
+export { useVulnerabilitiesStore } from '../stores/vulnerabilities.store';
 export { useDevice } from '../node_modules/.pnpm/@nuxtjs+device@3.2.4/node_modules/@nuxtjs/device/dist/runtime/composables/useDevice';
 export { defineStore, acceptHMRUpdate, usePinia, storeToRefs } from '../node_modules/.pnpm/@pinia+nuxt@0.10.1_magicast@0.3.5_pinia@3.0.2_typescript@5.8.3_vue@3.5.13_typescript@5.8.3__/node_modules/@pinia/nuxt/dist/runtime/composables';
 export { storages as piniaPluginPersistedstate } from '../node_modules/.pnpm/pinia-plugin-persistedstate@4.2.0_@pinia+nuxt@0.10.1_magicast@0.3.5_pinia@3.0.2_typescr_8340d5f59c36b613ceee35c590490a79/node_modules/pinia-plugin-persistedstate/dist/nuxt/runtime/storages';

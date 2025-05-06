@@ -213,7 +213,7 @@ declare global {
   const useThemeStore: typeof import('../../stores/theme')['useThemeStore']
   const useThemeSwitch: typeof import('../../composables/useThemeSwitch')['useThemeSwitch']
   const useTransitionState: typeof import('vue')['useTransitionState']
-  const useVulnerabilitiesStore: typeof import('../../stores/vulnerabilities.store['useVulnerabilitiesStore']
+  const useVulnerabilitiesStore: typeof import('../../stores/vulnerabilities.store')['useVulnerabilitiesStore']
   const watch: typeof import('vue')['watch']
   const watchEffect: typeof import('vue')['watchEffect']
   const watchPostEffect: typeof import('vue')['watchPostEffect']
@@ -462,7 +462,7 @@ declare module 'vue' {
     readonly useThemeStore: UnwrapRef<typeof import('../../stores/theme')['useThemeStore']>
     readonly useThemeSwitch: UnwrapRef<typeof import('../../composables/useThemeSwitch')['useThemeSwitch']>
     readonly useTransitionState: UnwrapRef<typeof import('vue')['useTransitionState']>
-    readonly useVulnerabilitiesStore: UnwrapRef<typeof import('../../stores/vulnerabilities.store['useVulnerabilitiesStore']>
+    readonly useVulnerabilitiesStore: UnwrapRef<typeof import('../../stores/vulnerabilities.store')['useVulnerabilitiesStore']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>
     readonly watchPostEffect: UnwrapRef<typeof import('vue')['watchPostEffect']>
