@@ -52,11 +52,11 @@ db = {
         {"id": 3, "name": "Stark Industries"}
     ],
     "agents": [
-        {"id": 1, "name": "Agent 1", "company_id": 1, "status": "active"},
-        {"id": 2, "name": "Agent 2", "company_id": 1, "status": "inactive"},
-        {"id": 3, "name": "Agent 3", "company_id": 2, "status": "active"},
-        {"id": 4, "name": "Agent 4", "company_id": 2, "status": "active"},
-        {"id": 5, "name": "Agent 5", "company_id": 3, "status": "active"}
+        {"id": 1, "name": "Agent 1", "company_id": 1, "status": "Active"},
+        {"id": 2, "name": "Agent 2", "company_id": 1, "status": "Inactive"},
+        {"id": 3, "name": "Agent 3", "company_id": 2, "status": "Active"},
+        {"id": 4, "name": "Agent 4", "company_id": 2, "status": "Active"},
+        {"id": 5, "name": "Agent 5", "company_id": 3, "status": "Active"}
     ]
 }
 
